@@ -28,7 +28,9 @@ namespace OOP
             Person person = new Person("Bình", true);
             Console.WriteLine(person.ToString());
 
-
+            Bird flappy = new Bird("Flappy");
+            flappy.Move();
+            flappy.Sound();
         }
     }
 }
