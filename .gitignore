@@ -1,3 +1,5 @@
 **/.vscode
 **/bin
 **/obj
+/PhoneManagement/.vs/PhoneManagement
+/StudentManage/.vs
