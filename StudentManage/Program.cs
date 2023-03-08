@@ -1,16 +1,20 @@
-﻿using System;
+﻿using StudentManage.AppDbContext;
+using StudentManage.Entities;
+using System;
 using System.Text;
 namespace StudentManage
 {
     class Program
     {
         private static StudentService studentService = new StudentService();
+        private static StaffService staffService = new StaffService();
         
         public static void Main(string[] args)
         {
             Console.InputEncoding = Encoding.UTF8;
             Console.OutputEncoding = Encoding.UTF8;
-            BuildMenu();
+            //BuildMenu();
+            IteratorStaff();
         }
 
         public static void BuildMenu()
@@ -90,6 +94,16 @@ namespace StudentManage
         public static void Iterator()
         {
             studentService.ShowStudents();
+        }
+
+        public static void IteratorStaff()
+        {
+            Console.WriteLine("#ID\tFullname\t\tDateofBirth");
+            List<Staff> staffs = staffService.GetStaffs();
+            foreach(Staff staff in staffs)
+            {
+                Console.WriteLine(staff.Display());
+            }
         }
 
         public static void Search()
