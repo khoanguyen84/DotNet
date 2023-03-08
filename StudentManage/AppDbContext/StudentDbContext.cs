@@ -6,10 +6,6 @@ namespace StudentManage.AppDbContext
 {
     internal class StudentDbContext : DbContext
     {
-        public StudentDbContext(DbContextOptions options) : base(options)
-        {
-
-        }
         public DbSet<Staff> Staffs { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
