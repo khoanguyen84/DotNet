@@ -38,7 +38,7 @@ namespace ProductManage.DAL.Implement
 
         public Product GetProduct(int id)
         {
-            return productContext.Products.FirstOrDefault(p => p.ProductId == id) ?? new Product();
+            return productContext.Products.FirstOrDefault(p => p.ProductId == id) ?? null;
         }
 
         public List<Product> GetProducts()
