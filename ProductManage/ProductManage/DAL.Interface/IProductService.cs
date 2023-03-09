@@ -13,6 +13,6 @@ namespace ProductManage.DAL.Interface
         public bool CreateProduct(Product product);
         public Product GetProduct(int id);
         public bool DeleteProduct(Product product);
-        //public bool UpdateProduct(Product newProduct);
+        public bool UpdateProduct(Product newProduct);
     }
 }

@@ -1,4 +1,5 @@
-﻿using ProductManage.AppContext;
+﻿using Microsoft.EntityFrameworkCore;
+using ProductManage.AppContext;
 using ProductManage.DAL.Interface;
 using ProductManage.Entities;
 using System;
@@ -38,13 +39,19 @@ namespace ProductManage.DAL.Implement
 
         public Product GetProduct(int id)
         {
-            return productContext.Products.FirstOrDefault(p => p.ProductId == id) ?? null;
+            return productContext.Products.Include(p => p.Category).FirstOrDefault(p => p.ProductId == id) ?? null;
         }
 
         public List<Product> GetProducts()
         {
             var product = productContext.Products.ToList();
             return product;
+        }
+
+        public bool UpdateProduct(Product newProduct)
+        {
+            productContext.Products.Update(newProduct);
+            return productContext.SaveChanges() > 0; 
         }
     }
 }

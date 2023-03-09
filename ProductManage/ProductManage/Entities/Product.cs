@@ -20,5 +20,8 @@ namespace ProductManage.Entities
         public double Price { get; set; }
         [Column(TypeName = "nvarchar(200)")]
         public string Rates { get; set; }
+        [ForeignKey(nameof(Category))]
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
     }
 }

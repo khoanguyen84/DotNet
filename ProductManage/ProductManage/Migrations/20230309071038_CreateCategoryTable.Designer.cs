@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProductManage.AppContext;
 
@@ -10,9 +11,10 @@ using ProductManage.AppContext;
 namespace ProductManage.Migrations
 {
     [DbContext(typeof(ProductDbContext))]
-    partial class ProductDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230309071038_CreateCategoryTable")]
+    partial class CreateCategoryTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,18 +39,6 @@ namespace ProductManage.Migrations
                     b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            CategoryId = 1,
-                            CategoryName = "Mobile"
-                        },
-                        new
-                        {
-                            CategoryId = 2,
-                            CategoryName = "Laptop"
-                        });
                 });
 
             modelBuilder.Entity("ProductManage.Entities.Product", b =>
@@ -58,9 +48,6 @@ namespace ProductManage.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"), 1L, 1);
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -81,15 +68,12 @@ namespace ProductManage.Migrations
 
                     b.HasKey("ProductId");
 
-                    b.HasIndex("CategoryId");
-
                     b.ToTable("Products");
 
                     b.HasData(
                         new
                         {
                             ProductId = 1,
-                            CategoryId = 1,
                             Description = "iPhone 13 Pro Max, Manufactory Thailand",
                             Name = "iPhone 13 Pro Max",
                             Price = 20000000.0,
@@ -98,7 +82,6 @@ namespace ProductManage.Migrations
                         new
                         {
                             ProductId = 2,
-                            CategoryId = 1,
                             Description = "iPhone 14 Pro Max, Manufactory Thailand",
                             Name = "iPhone 14 Pro Max",
                             Price = 30000000.0,
@@ -107,7 +90,6 @@ namespace ProductManage.Migrations
                         new
                         {
                             ProductId = 3,
-                            CategoryId = 1,
                             Description = "iPhone X, Manufactory Thailand",
                             Name = "iPhone X",
                             Price = 4000000.0,
@@ -116,28 +98,11 @@ namespace ProductManage.Migrations
                         new
                         {
                             ProductId = 4,
-                            CategoryId = 1,
                             Description = "iPhone 11, Manufactory Thailand",
                             Name = "iPhone 11",
                             Price = 10000000.0,
                             Rates = ""
                         });
-                });
-
-            modelBuilder.Entity("ProductManage.Entities.Product", b =>
-                {
-                    b.HasOne("ProductManage.Entities.Category", "Category")
-                        .WithMany("Products")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("ProductManage.Entities.Category", b =>
-                {
-                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }
