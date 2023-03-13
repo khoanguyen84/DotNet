@@ -10,7 +10,7 @@ namespace ShopingCart.DAL.Implement
         {
             try
             {
-                CartDetail cartItem = GetCartItem(cartDetail.ProductName);
+                CartDetail cartItem = GetCartItem(cartDetail.ProductId);
                 if (string.IsNullOrEmpty(cartItem.ProductName))
                 {
                     Cart.Add(cartDetail);
@@ -28,16 +28,21 @@ namespace ShopingCart.DAL.Implement
             }
         }
 
+        public void ClearCart()
+        {
+            Cart = new List<CartDetail>();
+        }
+
         public List<CartDetail> GetCart()
         {
             return Cart;
         }
 
-        public CartDetail GetCartItem(string productName)
+        public CartDetail GetCartItem(int productId)
         {
             foreach (CartDetail item in Cart)
             {
-                if (item.ProductName.ToLower().Equals(productName.ToLower()))
+                if (item.ProductId == productId)
                 {
                     return item;
                 }
@@ -45,11 +50,11 @@ namespace ShopingCart.DAL.Implement
             return new CartDetail();
         }
 
-        public bool RemoveCartItem(string productName)
+        public bool RemoveCartItem(int productId)
         {
             try
             {
-                CartDetail cartItem = GetCartItem(productName);
+                CartDetail cartItem = GetCartItem(productId);
                 if (!string.IsNullOrEmpty(cartItem.ProductName))
                 {
                     return Cart.Remove(cartItem);
@@ -62,11 +67,11 @@ namespace ShopingCart.DAL.Implement
             }
         }
 
-        public bool UpdateCartItem(string productName, int newQuantity)
+        public bool UpdateCartItem(int productId, int newQuantity)
         {
             try
             {
-                CartDetail cartItem = GetCartItem(productName);
+                CartDetail cartItem = GetCartItem(productId);
                 if (!string.IsNullOrEmpty(cartItem.ProductName))
                 {
                     cartItem.Quantity += newQuantity;

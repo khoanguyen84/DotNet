@@ -13,10 +13,12 @@ namespace ShopingCart.BAL
     {
         private CartService cartService;
         private ProductService productService;
+        private BillService billService;
         public ShoppingService() 
         {
             cartService = new CartService();
             productService = new ProductService();
+            billService = new BillService();
         }
 
         public void ShowProduct()
@@ -39,7 +41,7 @@ namespace ShopingCart.BAL
                 product = productService.GetProduct(productId);
                 if (string.IsNullOrEmpty(product.ProductName))
                 {
-                    Console.Write("Invalid Product Id:");
+                    Console.WriteLine("Invalid Product Id, please input again!");
                 }
             }
             while (string.IsNullOrEmpty(product.ProductName));
@@ -58,10 +60,34 @@ namespace ShopingCart.BAL
         public void ShowCart()
         {
             List<CartDetail> cart = cartService.GetCart();
-            Console.WriteLine("#ProductName\t\tPrice\t\tQuantity\t\tAmount");
+            Console.WriteLine("#ID\tProductName\t\tPrice\t\tQuantity\t\tAmount");
             foreach (CartDetail item in cart)
             {
-                Console.WriteLine($"{item.ProductName}\t\t{item.Price}\t\t{item.Quantity}\t\t{item.Amount}");
+                Console.WriteLine($"{item.ProductId}\t{item.ProductName}\t\t{item.Price}\t\t{item.Quantity}\t\t{item.Amount}");
+            }
+        }
+
+        public void CheckOut()
+        {
+            List<CartDetail> cartDetails = cartService.GetCart();
+            billService.CreateBill(cartDetails);
+            cartService.ClearCart();
+        }
+
+        public void ShowBill(int billId)
+        {
+            Bill bill = billService.GetBill(billId);
+            Console.WriteLine($"Total Amount: {Helper.Helper.CurrencyFormat(bill.TotalAmount)}");
+            Console.WriteLine($"Created Date: {bill.CreatedDate.ToString("dd/MM/yyyy")}");
+
+            Console.WriteLine("#ID\tProductName\t\tPrice\t\tQuantity\t\tAmount");
+            foreach (BillDetail item in bill.BillDetails)
+            {
+                Console.WriteLine($"{item.Product.ProductId}" +
+                    $"                  \t{item.Product.ProductName}" +
+                    $"                  \t\t{Helper.Helper.CurrencyFormat(item.Price)}" +
+                    $"                  \t\t{item.Quantity}" +
+                    $"                  \t\t{Helper.Helper.CurrencyFormat(item.Amount)}");
             }
         }
     }

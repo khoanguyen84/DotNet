@@ -10,9 +10,10 @@ namespace ShopingCart.DAL.Interface
     public interface ICartService
     {
         List<CartDetail> GetCart();
-        bool RemoveCartItem(string productName);
+        bool RemoveCartItem(int productId);
         bool AddToCart(CartDetail cartDetail);
-        bool UpdateCartItem(string productName, int newQuantity);
-        CartDetail GetCartItem(string productName);
+        bool UpdateCartItem(int productId, int newQuantity);
+        CartDetail GetCartItem(int productId);
+        void ClearCart();
     }
 }

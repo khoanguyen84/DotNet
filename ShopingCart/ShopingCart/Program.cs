@@ -7,10 +7,12 @@ namespace ShopingCart
         private static ShoppingService shoppingService = new ShoppingService();
         public static void Main(string[] args) 
         {
-            shoppingService.AddToCart();
-            shoppingService.ShowCart();
-            shoppingService.AddToCart();
-            shoppingService.ShowCart();
+            //shoppingService.AddToCart();
+            //shoppingService.AddToCart();
+            //shoppingService.ShowCart();
+            //shoppingService.CheckOut();
+            //shoppingService.ShowCart();
+            shoppingService.ShowBill(1);
         }
     }
 }
