@@ -13,10 +13,10 @@ namespace ShopingCart
 
         public static void BuildMenu()
         {
-            int selected = 0;
+            int selected;
             do
             {
-                Console.WriteLine("-----------Student Manage----------------");
+                Console.WriteLine("-----------Shopping Cart----------------");
                 Console.WriteLine("1. View list of product");
                 Console.WriteLine("2. Add to cart");
                 Console.WriteLine("3. Show cart detail");
