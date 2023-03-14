@@ -14,5 +14,15 @@ namespace ShopingCart.Helper
             CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");
             return double.Parse(number.ToString()).ToString("#,###", cul.NumberFormat);
         }
+        public enum ActionName
+        {
+            GetProducts = 1,
+            AddToCart = 2,
+            ShowCartDetail = 3,
+            RemoveCartItem = 4,
+            Checkout = 5,
+            ShowBill = 6,
+            Exit = 7
+        }    
     }
 }

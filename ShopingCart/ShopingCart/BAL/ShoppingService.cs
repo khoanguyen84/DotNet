@@ -24,10 +24,10 @@ namespace ShopingCart.BAL
         public void ShowProduct()
         {
             List<Product> products = productService.GetProducts();
-            Console.WriteLine("#ID\tProductName\t\tPrice");
+            DataTable(new string[] { "#ID", "ProductName", "Price" }, false);
             foreach (Product product in products) 
             {
-                Console.WriteLine($"{product.ProductId}\t{product.ProductName}\t\t{product.Price}");
+                DataTable(new string[] { product.ProductId.ToString(), product.ProductName, product.Price.ToString()}, product == products.Last());
             }
         }
 
@@ -60,13 +60,31 @@ namespace ShopingCart.BAL
         public void ShowCart()
         {
             List<CartDetail> cart = cartService.GetCart();
-            Console.WriteLine("#ID\tProductName\t\tPrice\t\tQuantity\t\tAmount");
+            DataTable(new string[] { "#ID", "ProductName", "Price", "Quantity", "Amount" }, false);
             foreach (CartDetail item in cart)
             {
-                Console.WriteLine($"{item.ProductId}\t{item.ProductName}\t\t{item.Price}\t\t{item.Quantity}\t\t{item.Amount}");
+                DataTable(new string[] { item.ProductId.ToString(), item.ProductName, item.Price.ToString(), item.Quantity.ToString(), item.Amount.ToString() }, item == cart.Last());
             }
         }
 
+        public void RemoveCartItem()
+        {
+            Console.Write("Enter Product Id:");
+            int.TryParse(Console.ReadLine(), out int productId);
+            if (productId <= 0)
+            {
+                Console.Write("Invalid ProductId");
+                return;
+            }
+            CartDetail cartDetail = cartService.GetCartItem(productId);
+            if (cartDetail.ProductId <= 0)
+            {
+                Console.Write("ProductId not found");
+                return;
+            }
+            cartService.RemoveCartItem(productId);
+            Console.Write($"Product: {cartDetail.ProductName} removed from cart");
+        }
         public void CheckOut()
         {
             List<CartDetail> cartDetails = cartService.GetCart();
@@ -74,20 +92,60 @@ namespace ShopingCart.BAL
             cartService.ClearCart();
         }
 
-        public void ShowBill(int billId)
+        public void ShowBill()
         {
+            Console.Write("Enter Bill Id:");
+            int.TryParse(Console.ReadLine(), out int billId);
+            if(billId <= 0) {
+                Console.Write("Invalid BillId");
+                return;
+            }
             Bill bill = billService.GetBill(billId);
+            if(bill.BillId <= 0)
+            {
+                Console.Write("BillId not found");
+                return;
+            }
             Console.WriteLine($"Total Amount: {Helper.Helper.CurrencyFormat(bill.TotalAmount)}");
             Console.WriteLine($"Created Date: {bill.CreatedDate.ToString("dd/MM/yyyy")}");
 
-            Console.WriteLine("#ID\tProductName\t\tPrice\t\tQuantity\t\tAmount");
+            DataTable(new string[] { "#ID", "ProductName", "Price", "Quantity", "Amount" }, false);
             foreach (BillDetail item in bill.BillDetails)
             {
-                Console.WriteLine($"{item.Product.ProductId}" +
-                    $"                  \t{item.Product.ProductName}" +
-                    $"                  \t\t{Helper.Helper.CurrencyFormat(item.Price)}" +
-                    $"                  \t\t{item.Quantity}" +
-                    $"                  \t\t{Helper.Helper.CurrencyFormat(item.Amount)}");
+                DataTable(new string[] { item.ProductId.ToString(), 
+                                            item.Product.ProductName, 
+                                            Helper.Helper.CurrencyFormat(item.Price), 
+                                            item.Quantity.ToString(), 
+                                            Helper.Helper.CurrencyFormat(item.Amount) }, item == bill.BillDetails.Last());
+            }
+        }
+
+        public void DataTable(string[] columns, bool isLastCol, int width = 100)
+        {
+            int colWidth = (width - columns.Length) / columns.Length;
+            string row = "|";
+            Console.WriteLine(new String('-', width));
+            foreach (string column in columns)
+            {
+                row += AlignData(column, colWidth) + "|";
+            }
+            Console.WriteLine(row);
+            if (isLastCol)
+            {
+                Console.WriteLine(new String('-', width));
+            }
+        }
+
+        public string AlignData(string text, int colWidth)
+        {
+            text = text.Length > colWidth ? text.Substring(0, colWidth - 3) + "..." : text;
+            if (string.IsNullOrEmpty(text))
+            {
+                return new String(' ', colWidth);
+            }
+            else
+            {
+                return text.PadRight(colWidth - (colWidth - text.Length) / 2).PadLeft(colWidth);
             }
         }
     }

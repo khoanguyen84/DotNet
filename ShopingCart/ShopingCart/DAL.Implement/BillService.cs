@@ -29,12 +29,12 @@ namespace ShopingCart.DAL.Implement
                     TotalAmount = totalAmount,
                 };
                 shoppingContext.Bills.Add(bill);
-                int billId = shoppingContext.SaveChanges();
+                shoppingContext.SaveChanges();
                 foreach(CartDetail cartDetail in cartDetails) 
                 {
                     BillDetail billDetail = new BillDetail()
                     {
-                        BillId = billId,
+                        BillId = bill.BillId,
                         Price = cartDetail.Price,
                         ProductId = cartDetail.ProductId,
                         Quantity = cartDetail.Quantity,
@@ -52,7 +52,7 @@ namespace ShopingCart.DAL.Implement
 
         public Bill GetBill(int billId)
         {
-            Bill bill = shoppingContext.Bills.Include(b => b.BillDetails).ThenInclude(bd => bd.Product).SingleOrDefault(b => b.BillId == billId) ?? new Bill();
+            Bill bill = shoppingContext.Bills.Include(b => b.BillDetails).ThenInclude(bd => bd.Product).FirstOrDefault(b => b.BillId == billId) ?? new Bill();
             return bill;
         }
     }
