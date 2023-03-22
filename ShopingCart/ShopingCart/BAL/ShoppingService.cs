@@ -14,11 +14,13 @@ namespace ShopingCart.BAL
         private CartService cartService;
         private ProductService productService;
         private BillService billService;
+        private ReportService reportService;
         public ShoppingService() 
         {
             cartService = new CartService();
             productService = new ProductService();
             billService = new BillService();
+            reportService = new ReportService();
         }
 
         public void ShowProduct()
@@ -148,5 +150,20 @@ namespace ShopingCart.BAL
                 return text.PadRight(colWidth - (colWidth - text.Length) / 2).PadLeft(colWidth);
             }
         }
+
+        public void GetReport()
+        {
+            int min = 40000000;
+            int max = 70000000;
+            List<Report> reports = reportService.GetReports(min, max);
+            DataTable(new string[] { "#BillID", "Total Quantity", "Total Amount", "Created Date"}, false);
+            foreach (Report report in reports)
+            {
+                DataTable(new string[] { report.BillId.ToString(), 
+                                        Helper.Helper.CurrencyFormat(report.TotalQuantity),
+                                         Helper.Helper.CurrencyFormat(report.TotalAmount),
+                                        report.CreatedDate.ToString("MMM-dd-yyyy")}, report == reports.Last());
+            }
+        }    
     }
 }

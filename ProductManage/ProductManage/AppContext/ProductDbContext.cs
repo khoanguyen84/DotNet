@@ -7,9 +7,10 @@ namespace ProductManage.AppContext
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Staff> Staffs { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
-            builder.UseSqlServer(@"Data Source=khoanguyen\sqlexpress;Initial Catalog=CGCafe;Integrated Security=True");
+            builder.UseSqlServer(@"Data Source=khoanguyen\sqlexpress;Initial Catalog=CGCafe;Integrated Security=True; Encrypt=True; TrustServerCertificate=True");
         }
 
         //Seeding data
@@ -65,6 +66,22 @@ namespace ProductManage.AppContext
                     CategoryId = 1
                 }
            );
+            modelBuilder.Entity<Staff>().HasData(
+                new Staff()
+                {
+                    StaffId = 1,
+                    DateOfBirth = DateTime.Now,
+                    Email = "khoa.nguyen@codegym.vn",
+                    Fullname = "Khoa Nguyễn"
+                },
+                new Staff()
+                {
+                    StaffId = 2,
+                    DateOfBirth = DateTime.Now,
+                    Email = "quang.dang@codegym.vn",
+                    Fullname = "Quang Đặng"
+                }
+            );
         }
     }
 }

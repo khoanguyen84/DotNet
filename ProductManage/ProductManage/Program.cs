@@ -7,6 +7,7 @@ namespace ProductManage
     class Program
     {
         public static ProductService productService = new ProductService();
+        public static StaffService staffService = new StaffService();
         public static void Main(string[] args)
         {
             //Product newProduct = new Product()
@@ -18,7 +19,8 @@ namespace ProductManage
             //    Rates = ""
             //};
             //UpdateProduct(newProduct);
-            ShowProduct(1);
+            //ShowProduct(1);
+            ShowStaffs();
         }
 
         public static void ShowProduts()
@@ -98,6 +100,16 @@ namespace ProductManage
             else
             {
                 Console.WriteLine("Invalid Product");
+            }
+        }
+
+        public static void ShowStaffs()
+        {
+            List<Staff> staffs = staffService.GetStaffs();
+            Console.WriteLine("StaffId\t\tFullname\t\tEmail\t\tDoB");
+            foreach (Staff staff in staffs)
+            {
+                Console.WriteLine($"{staff.StaffId}\t\t{staff.Fullname}\t\t{staff.Email}\t\t{staff.DateOfBirth.ToString("MM/dd/yyyy")}");
             }
         }
     }
