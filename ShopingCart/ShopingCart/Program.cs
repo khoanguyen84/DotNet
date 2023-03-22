@@ -9,7 +9,8 @@ namespace ShopingCart
         public static void Main(string[] args)
         {
             //BuildMenu();
-            shoppingService.GetReport();
+            //shoppingService.GetReport();
+            shoppingService.CreateProduct();
         }
 
         public static void BuildMenu()

@@ -11,5 +11,6 @@ namespace ShopingCart.DAL.Interface
     {
         List<Product> GetProducts();
         Product GetProduct(int productId);
+        bool CreateProduct(Product product);
     }
 }

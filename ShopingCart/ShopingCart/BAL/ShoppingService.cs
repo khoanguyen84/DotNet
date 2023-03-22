@@ -164,6 +164,27 @@ namespace ShopingCart.BAL
                                          Helper.Helper.CurrencyFormat(report.TotalAmount),
                                         report.CreatedDate.ToString("MMM-dd-yyyy")}, report == reports.Last());
             }
-        }    
+        }  
+        
+        public void CreateProduct()
+        {
+            Console.Write("Enter product name: ");
+            string productName = Console.ReadLine();
+            Console.Write("Enter Price: ");
+            int.TryParse(Console.ReadLine(), out int price);
+            Product product = new Product()
+            {
+                ProductName = productName,
+                Price = price
+            };
+            if (productService.CreateProduct(product)) 
+            {
+                Console.WriteLine("Product created success!");
+            }
+            else
+            {
+                Console.WriteLine("Wrong, plese try again!");
+            }
+        }
     }
 }
